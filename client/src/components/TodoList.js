@@ -40,7 +40,7 @@ const TodoList = () => {
 
     const saveTask = (taskObj) => {
         let tempList = taskObj
-        axios.post("http://127.0.0.1:8000/api/task/crete",{tempList})
+        axios.post("http://127.0.0.1:8000/api/task/create",{tempList})
         .then(res=>console.log(res.data))
         .catch(err=>console.log(err))
         // setTaskList(taskList)
