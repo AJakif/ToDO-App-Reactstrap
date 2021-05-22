@@ -7,7 +7,7 @@ import {
 } from "reactstrap";
 import EditTask from "../modals/EditTask";
 
-const Cards = ({ task, index, deleteTask, updateListArray }) => {
+const Cards = ({ task, id, deleteTask, updateListArray }) => {
 	const [modal, setModal] = useState(false);
 
 	const toggle = () => {
@@ -15,11 +15,11 @@ const Cards = ({ task, index, deleteTask, updateListArray }) => {
 	};
 
 	const updateTask = (obj) => {
-		updateListArray(obj, index);
+		updateListArray(obj, id);
 	};
 
 	const handleDelete = () => {
-		deleteTask(index);
+		deleteTask(id);
 	};
 
 	return (
@@ -28,10 +28,10 @@ const Cards = ({ task, index, deleteTask, updateListArray }) => {
 			<div className="col-md-4 mt-3">
 				<Card >
 					<CardBody>
-						<CardTitle tag="h5">{task.Name}</CardTitle>
+						<CardTitle tag="h5">{task.name}</CardTitle>
 						
 						<CardText tag="h6" className="mb-1 text-muted">
-                        {task.Description}
+                        {task.description}
 						</CardText>
 						<div style={{ position: "absolute", right: "20px", bottom: "20px" }}>
 					<i

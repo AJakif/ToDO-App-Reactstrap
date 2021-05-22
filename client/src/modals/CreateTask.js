@@ -21,8 +21,8 @@ const CreateTaskPopup = ({modal, toggle, save}) => {
     const handleSave = (e) => {
         e.preventDefault()
         let taskObj = {}
-        taskObj["Name"] = taskName
-        taskObj["Description"] = description
+        taskObj["name"] = taskName
+        taskObj["description"] = description
         save(taskObj)
 
     }

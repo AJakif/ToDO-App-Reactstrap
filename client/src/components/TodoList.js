@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Jumbotron,CardDeck, Container, Button} from 'reactstrap'
+import axios from 'axios'
 import CreateTask from '../modals/CreateTask'
 import Card from './Cards';
 
@@ -8,29 +9,29 @@ const TodoList = () => {
     const [taskList, setTaskList] = useState([])
     
     useEffect(() => {
-        let arr = localStorage.getItem("taskList")
-       
-        if(arr){
-            let obj = JSON.parse(arr)
-            setTaskList(obj)
-        }
+        // let arr = localStorage.getItem("taskList")
+        axios.get("http://127.0.0.1:8000/api/task")
+        .then(response => 
+            setTaskList(response.data))
+        .catch(error => console.log(error))
+
     }, [])
 
 
-    const deleteTask = (index) => {
-        let tempList = taskList
-        tempList.splice(index, 1)
-        localStorage.setItem("taskList", JSON.stringify(tempList))
-        setTaskList(tempList)
-        window.location.reload()
+    const deleteTask = (id) => {
+        axios.delete(`http://127.0.0.1:8000/api/task/delete/${id}`)
+        .then(response => 
+            setTaskList(response.data))
+        .catch(error => console.log(error))
     }
 
-    const updateListArray = (obj, index) => {
-        let tempList = taskList
-        tempList[index] = obj
-        localStorage.setItem("taskList", JSON.stringify(tempList))
-        setTaskList(tempList)
-        window.location.reload()
+    const updateListArray = (obj, id) => {
+        
+        axios.put(`https://reqres.in/api/articles/${id}`, {obj})
+        .then(response => this.setState( response.data)
+        )
+        .catch(err=>console.log(err))
+        
     }
 
     const toggle = () => {
@@ -38,10 +39,11 @@ const TodoList = () => {
     }
 
     const saveTask = (taskObj) => {
-        let tempList = taskList
-        tempList.push(taskObj)
-        localStorage.setItem("taskList", JSON.stringify(tempList))
-        setTaskList(taskList)
+        let tempList = taskObj
+        axios.post("http://127.0.0.1:8000/api/task/crete",{tempList})
+        .then(res=>console.log(res.data))
+        .catch(err=>console.log(err))
+        // setTaskList(taskList)
         setModal(false)
     }
 
@@ -56,8 +58,8 @@ const TodoList = () => {
             </div>
             <Container>
                 <CardDeck>
-                    {taskList.map((obj , index) => 
-                    <Card task = {obj} index = {index} deleteTask = {deleteTask} updateListArray = {updateListArray}/> 
+                    {taskList.map((obj) => 
+                    <Card task = {obj} id = {obj.id} deleteTask = {deleteTask} updateListArray = {updateListArray}/> 
                     )}
                 </CardDeck>
             </Container>
