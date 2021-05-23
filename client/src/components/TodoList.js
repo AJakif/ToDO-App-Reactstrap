@@ -10,27 +10,38 @@ const TodoList = () => {
     
     useEffect(() => {
         // let arr = localStorage.getItem("taskList")
-        axios.get("http://127.0.0.1:8000/api/task")
-        .then(response => 
-            setTaskList(response.data))
-        .catch(error => console.log(error))
+        getTask();
 
     }, [])
 
-
-    const deleteTask = (id) => {
-        axios.delete(`http://127.0.0.1:8000/api/task/delete/${id}`)
+    const getTask = ()=>{
+         axios.get("http://127.0.0.1:8000/api/task")
         .then(response => 
             setTaskList(response.data))
         .catch(error => console.log(error))
     }
 
-    const updateListArray = (obj, id) => {
+
+    const deleteTask = (id) => {
+        axios.delete(`http://127.0.0.1:8000/api/task/delete/${id}`)
+        .then(response => {
+            setTaskList(response.data);
+            getTask();}
+            )
+        .catch(error => console.log(error))
         
-        axios.put(`https://reqres.in/api/articles/${id}`, {obj})
-        .then(response => this.setState( response.data)
-        )
+    }
+
+    const updateListArray = (obj, id) => {
+        console.log(obj)
+        console.log(id)
+        axios.patch(`http://127.0.0.1:8000/api/task/update/${id}`, obj)
+        .then(response => {
+            console.log(response)
+            getTask();
+        })
         .catch(err=>console.log(err))
+        setModal(false)
         
     }
 
@@ -40,10 +51,11 @@ const TodoList = () => {
 
     const saveTask = (taskObj) => {
         let tempList = taskObj
-        axios.post("http://127.0.0.1:8000/api/task/create",{tempList})
-        .then(res=>console.log(res.data))
+        console.log(tempList)
+        axios.post("http://127.0.0.1:8000/api/task/create",tempList)
+        .then(res=>{console.log(res.data)
+            getTask();})
         .catch(err=>console.log(err))
-        // setTaskList(taskList)
         setModal(false)
     }
 

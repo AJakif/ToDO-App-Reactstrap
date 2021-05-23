@@ -13,13 +13,18 @@ class TaskController extends Controller
     }
 
     public function save(Request $request){
-        $task = new task();
+        $task = new task;
                 $task->name = $request->name;
                 $task->description = $request->description;
                 $task->save();
 
                 $message = "Task added succesfully";
                 return response()->json([$task,$message],200);
+    }
+    public function get($id){
+        $task = task::find($id);
+        $message = "task found succesfully";
+        return response()->json([$task,$message],200);
     }
     public function update(Request $request, $id){
         $task = task::find($id);

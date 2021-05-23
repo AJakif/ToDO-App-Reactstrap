@@ -1,4 +1,5 @@
 import React, { useState , useEffect} from 'react';
+import axios from 'axios'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const EditTaskPopup = ({modal, toggle, updateTask, task}) => {
@@ -19,9 +20,15 @@ const EditTaskPopup = ({modal, toggle, updateTask, task}) => {
     }
 
     useEffect(() => {
-            setTaskName(task.name)
-            setDescription(task.description) 
+        getTask();
     },[])
+
+    const getTask = ()=>{
+        
+        setTaskName(task.name)
+        setDescription(task.description) 
+    
+   }
 
     const handleUpdate = (e) => {
         e.preventDefault();

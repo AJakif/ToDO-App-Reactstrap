@@ -16,6 +16,7 @@ const Cards = ({ task, id, deleteTask, updateListArray }) => {
 
 	const updateTask = (obj) => {
 		updateListArray(obj, id);
+		setModal(false);
 	};
 
 	const handleDelete = () => {
